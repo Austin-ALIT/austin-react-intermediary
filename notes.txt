@@ -1,0 +1,11 @@
+// Notes for the course
+
+// for multiple states: 
+// option 1, separate states for each
+// option 2, combine into a single object. remember to use a function when calling the setter to make sure you: 
+    // a. remember to include the other key-values of the object (using a spread ...)
+    // b. use a function in the setter to avoid potential errors due to queueing 
+
+// for passing data bottom-up, make a function prop (similar to onClick) with parameters for the data, then call that function using the prop. 
+
+// 
