@@ -1,7 +1,7 @@
 // Create a functional component named TaskTracker in the 'components' directory.
 
 // Inside the component, import the useState hook from the 'react' package.
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 
 type Task = {
     name: string, 
@@ -21,7 +21,7 @@ export default function TaskTracker(){
 
     // Implement an event handler for the add button that adds a new task to the tasks array.
     function addTaskHandler(event: any){
-        // event.preventDefault() // To prevent page refreshing onClick
+        event.preventDefault() // To prevent page refreshing onClick
         setTasks((prevTask) => [...prevTask, newTask]);
     }
     
@@ -61,6 +61,7 @@ export default function TaskTracker(){
     }
     function taskDeleteHander(task: Task, event: any){
         let ind = tasks.indexOf(task);
+        event.preventDefault();
         // let newTasks = tasks.splice(ind, 1)
         let newTasks = tasks;
         console.log(ind);
@@ -69,10 +70,22 @@ export default function TaskTracker(){
 
         // Works but the page does not update. 
     }
+
+    useEffect(() => {
+        console.log(tasks)
+    }, [tasks])
+    function checkHandler(task: Task): boolean{
+        console.log(task)
+        // let ind = tasks.indexOf(task);
+        setTimeout(() => {
+            return task.completed;
+        }, 1000);
+    
+    }
     
 
     return(
-        <div>
+        <div >
             {/* // Display an input field and a button to add tasks. */}
             <div>
                 <label> Input Task: </label>
@@ -87,14 +100,13 @@ export default function TaskTracker(){
                 {tasks.map(t => {
                     return(
                             <li key={t.name}>
-                                <input type="checkbox" onChange={(e: any) => {taskCompleteHandler(t, e)}} checked={t.completed}></input> 
+                                <input type="checkbox" onChange={(e: any) => {taskCompleteHandler(t, e)}} checked={checkHandler(t)} value={t.name}></input> 
                                 <label> {t.name} </label> 
                                 <label> ({t.completed? 'done' : 'todo'}) </label> 
                                 {/* // Add a delete button next to each task that removes the task from the tasks array when clicked. */}
-                                {/* <td> <button onClick={(e: any) => taskDeleteHander(t,e)}> Remove </button> </td> */}
+                                 <button onClick={(e: any) => taskDeleteHander(t,e)}> Remove </button> 
                             </li>
                     )
-
                 })}
             </ul>
         </div>
