@@ -11,7 +11,6 @@ type Task = {
 export default function TaskTracker(){
     // Use the useState hook to define a tasks state variable, initialized as an empty array.
     const [tasks, setTasks] = useState<Task[]>([{name: 'Example Task', completed: false}]);
-    // const [cbStatus, setCBStatus] = useState<boolean>(false);
     
     let newTask:Task = {name: '', completed: false};
 
@@ -27,63 +26,28 @@ export default function TaskTracker(){
     
     // Implement an event handler for the checkbox that updates the completed status of the corresponding task.
     function taskCompleteHandler(task: Task, event: ChangeEvent<HTMLInputElement>){
-        /* Mark Task as Completed */
-        // event.preventDefault();
-        // Step 1: FIND TASK
-        let ind = tasks.indexOf(task);
-        let value = event.target.checked;
-        
-        // Step 2: update name field
         let newTasks = tasks;
-        newTasks[ind].completed = value; 
-
-        // Step 3: update the rest of the array
-        console.log(newTasks);
-        setTasks((prevTasks) => newTasks);
-
-
-
-
-        // use destructuring
-        // let myTask = tasks[tasks.indexOf(task)]
-
-
-        // setTasks(tasks[tasks.indexOf(task)].completed = 'on')
-        
-        // let newVal = (!(event.target.checked)); 
-        // let newVal =  
-
-        // setCBStatus(event.target.checked);
-        // console.log(newVal);
-
-        // Works, but the page is not updating. 
-
-    }
-    function taskDeleteHander(task: Task, event: any){
-        let ind = tasks.indexOf(task);
-        event.preventDefault();
-        // let newTasks = tasks.splice(ind, 1)
-        let newTasks = tasks;
-        console.log(ind);
-        let removed = newTasks.splice(ind,1);
-        setTasks(newTasks);
-
-        // Works but the page does not update. 
+        setTasks(
+            newTasks.map((t) => 
+                ((t.name === event.target.id) ? {...t, completed: !(t.completed)} : t)
+            )
+        );
     }
 
-    useEffect(() => {
-        console.log(tasks)
-    }, [tasks])
+    function taskDeleteHander(event: any, ind: number){
+        setTasks( (prevTasks) => {
+                let newTasks = [...prevTasks];
+                newTasks.splice(ind, 1);
+                console.log(ind);
+                return(newTasks);
+            }
+        );
+    }
+    
     function checkHandler(task: Task): boolean{
-        console.log(task)
-        // let ind = tasks.indexOf(task);
-        setTimeout(() => {
-            return task.completed;
-        }, 1000);
-    
+        return task.completed;
     }
     
-
     return(
         <div >
             {/* // Display an input field and a button to add tasks. */}
@@ -94,17 +58,16 @@ export default function TaskTracker(){
             </div>
             
             {/* // Display the list of tasks below the input field, showing the task name and a checkbox to mark the task as completed. */}
-            <ul>
-                {/* This is not updating when a change is made. sometimes  */}
-                
-                {tasks.map(t => {
+            <ul>             
+                {tasks.map((t, ind) => {
                     return(
-                            <li key={t.name}>
-                                <input type="checkbox" onChange={(e: any) => {taskCompleteHandler(t, e)}} checked={checkHandler(t)} value={t.name}></input> 
+                            <li key={ind}>
+                                <input type="checkbox" onChange={(e: any) => {taskCompleteHandler(t,e)}} checked={t.completed} id={t.name}></input> 
                                 <label> {t.name} </label> 
                                 <label> ({t.completed? 'done' : 'todo'}) </label> 
+
                                 {/* // Add a delete button next to each task that removes the task from the tasks array when clicked. */}
-                                 <button onClick={(e: any) => taskDeleteHander(t,e)}> Remove </button> 
+                                 <button onClick={(e: any) => taskDeleteHander(e, ind)}> Remove </button> 
                             </li>
                     )
                 })}
@@ -113,124 +76,4 @@ export default function TaskTracker(){
     )
 }
 
-
-
 // Stuff that will bankrupt me: Strikethrough if task is completed
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import { type } from "os";
-// import { ChangeEvent, useState } from "react"
-
-// export type TaskType = {name: string, completed: boolean};
-
-// export default function TaskTracker(){
-    
-//     // let initialArray: Array<tasktype> = [];
-//     const [tasks, setTasks] = useState<TaskType[]>([]);
-
-
-//     let taskinput='';
-
-//     function onButtonClick(){
-//         let newTask = {name: taskinput, completed: false};
-//         setTasks([...tasks, newTask]);
-//     }
-
-//     function onCheckboxClick(e: any){
-//         // get the checkbox value
-//         let cbValue = e.target.value;
-
-//         // get the task
-//         for (let t of tasks){ // TODO: Improve this code. Maybe reduce? 
-//             if (t.name == e.target.id) {
-//                 let currentTask = tasks.indexOf(t);
-                
-//                 // update the task to the checkbox value
-//                 let workingTasks = tasks;
-//                 workingTasks[currentTask].completed = cbValue;
-//                 setTasks(workingTasks);
-//             }
-//         }
-
-//     }
-
-//     function onBtnDeleteClick(e: any){
-//         let ind = e.target.id;
-//         let newTasks = tasks;
-//         newTasks.splice(newTasks.indexOf(ind),1);
-//         setTasks(newTasks);
-//     }
-    
-//     return(
-//         <>
-//             <label> Input a task: </label>
-//             <input type="text" onChange={(e) => {taskinput = e.target.value}}></input>
-//             <br/>
-//             <button onClick={onButtonClick}> Add Tasks </button>
-//             <br/>
-//             {/* Displaying the list of tasks */}
-//             {tasks.map((t) => {
-//                 // Possible error: .name not recodnised on empty array.                
-//                 // ---------- TODO: t.completed is not showing. Investigate. 
-//                 return(
-//                     <> 
-//                         <label> {t.name} {t.completed} </label>
-//                         <input type="checkbox" onChange={onCheckboxClick} id={t.name} value={`${t.completed}`}></input>
-//                         <button onClick={onBtnDeleteClick} id={t.name}> Delete </button>
-//                         <br/>
-//                     </> 
-//                 )
-//             })}
-//         </>
-//     )
-// }
-
-
-
-
-
-
