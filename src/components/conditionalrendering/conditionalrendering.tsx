@@ -4,6 +4,10 @@ git flow feature start conditional-rendering
 git add .
 git commit -m "Completed conditional-rendering"
 git flow feature finish conditional-rendering
+git flow release start released
+git flow release finish released
+git checkout master
+git push origin master
 */
 
 import { useState } from "react"
