@@ -1,0 +1,51 @@
+.topdiv{
+    color: black;
+    background-color: gray;
+    border-radius: 10pt;
+    padding: 10pt;
+    margin: 5%;
+    margin-left: 20%;
+    margin-right: 20%;
+    text-align: center;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.inputdiv{
+    background-color: wheat;
+    border-radius: 5pt;
+    padding: 3pt;
+    border-color: black;
+    border-width: 1pt;
+}
+
+.inputbutton{
+    background-color: red;
+    border-radius: 5pt;
+    border-color: black;
+    border-width: 1pt;
+    width: 100%;
+    margin-top: 5px;
+}
+
+.tasklist{
+    background-color: wheat;
+    border-radius: 5pt;
+    border-color: black;
+    border-width: 1pt;
+    width: 100%;
+    margin-top: 5px;
+    padding: 10px;
+}
+
+.taskitem{
+    background-color: silver;
+    border-radius: 5pt;
+    border-color: black;
+    border-width: 1pt;
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 5px;
+    text-align: center;
+}
+
