@@ -8,13 +8,18 @@ export default function ChildComponent(){
 
     // Display the context data in the component's render.
     return(
-        <ContextProvider>
-            <p> Consumer Method: </p>
-            <ContextConsumer/>
-            <br/>
-            <p> useContext Method: </p>
-            <p> {`Authenticated: ${contex.isAuthenticated}`} </p>
-            <p> {`Authorised: ${contex.isAuthorised}`} </p>
-        </ContextProvider>
+        <>
+            <p> {`Authenticated: ${contex.value.isAuthenticated}`} </p>
+            <p> {`Authorised: ${contex.value.isAuthorised}`} </p>
+            <br/> 
+
+            {/* // Add a buttons or input fields to the ChildComponent that allows the user to modify the context data. */}
+            <div> 
+                <p> Edit the context data: </p>
+                <button onClick={() => contex.changer({type: 'AUTHENTICATION_TOGGLE'})}> Toggle Authentication </button>
+                <br/>
+                <button onClick={() => contex.changer({type: 'AUTHORISATION_TOGGLE'})}> Toggle Authorisation </button>
+            </div>
+        </>
     )
 }
